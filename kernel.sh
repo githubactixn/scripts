@@ -18,7 +18,13 @@
  # limitations under the License.
  #
 
-#Kernel building script
+# Kernel building script
+
+# Show Progress compiling
+SERVER_URL="https://cirrus-ci.com/build/$CIRRUS_BUILD_ID"
+
+# Cloning Sources
+git clone --single-branch --depth=1 https://github.com/AOSPA-X01BD/kernel_msm-4.19 -b standalone kernel && cd kernel
 
 # Bail out if script fails
 set -e
@@ -48,24 +54,24 @@ KERNEL_DIR="$(pwd)"
 BASEDIR="$(basename "$KERNEL_DIR")"
 
 # The name of the Kernel, to name the ZIP
-ZIPNAME="azure"
+ZIPNAME="perf"
 
 # Build Author
 # Take care, it should be a universal and most probably, case-sensitive
-AUTHOR="Panchajanya1999"
+AUTHOR="z3zens"
 
 # Architecture
 ARCH=arm64
 
 # The name of the device for which the kernel is built
-MODEL="Redmi Note 7 Pro"
+MODEL="Zenfone Max Pro M2"
 
 # The codename of the device
-DEVICE="violet"
+DEVICE="X01BD"
 
 # The defconfig which should be used. Get it from config.gz from
 # your device or check source
-DEFCONFIG=vendor/violet-perf_defconfig
+DEFCONFIG=asus/X01BD_defconfig
 
 # Specify compiler. 
 # 'clang' or 'gcc'
@@ -79,14 +85,15 @@ MODULES=0
 LINKER=ld.lld
 
 # Clean source prior building. 1 is NO(default) | 0 is YES
-INCREMENTAL=1
+INCREMENTAL=0
 
 # Push ZIP to Telegram. 1 is YES | 0 is NO(default)
 PTTG=1
 if [ $PTTG = 1 ]
 then
 	# Set Telegram Chat ID
-	CHATID="-1001231303646"
+	CHATID="-1001567354257"
+	TOKEN="5654193670:AAGgu2DWx7tQjGq9tn-uaPIoljdrYWGBWio"
 fi
 
 # Generate a full DEFCONFIG prior building. 1 is YES | 0 is NO(default)
@@ -97,17 +104,17 @@ FILES=Image.gz-dtb
 
 # Build dtbo.img (select this only if your source has support to building dtbo.img)
 # 1 is YES | 0 is NO(default)
-BUILD_DTBO=1
+BUILD_DTBO=0
 if [ $BUILD_DTBO = 1 ]
 then 
 	# Set this to your dtbo path. 
 	# Defaults in folder out/arch/arm64/boot/dts
-	DTBO_PATH="xiaomi/violet-sm6150-overlay.dtbo"
+	DTBO_PATH="asus/X01BD-sdm660-overlay.dtbo"
 fi
 
 # Sign the zipfile
 # 1 is YES | 0 is NO
-SIGN=1
+SIGN=0
 if [ $SIGN = 1 ]
 then
 	#Check for java
@@ -146,25 +153,9 @@ export CI_BRANCH=$(git rev-parse --abbrev-ref HEAD)
 TERM=xterm
 
 ## Check for CI
-if [ "$CI" ]
-then
-	if [ "$CIRCLECI" ]
-	then
-		export KBUILD_BUILD_VERSION=$CIRCLE_BUILD_NUM
-		export KBUILD_BUILD_HOST="CircleCI"
-		export CI_BRANCH=$CIRCLE_BRANCH
-	fi
-	if [ "$DRONE" ]
-	then
-		export KBUILD_BUILD_VERSION=$DRONE_BUILD_NUMBER
-		export KBUILD_BUILD_HOST=$DRONE_SYSTEM_HOST
-		export CI_BRANCH=$DRONE_BRANCH
-		export BASEDIR=$DRONE_REPO_NAME # overriding
-		export SERVER_URL="${DRONE_SYSTEM_PROTO}://${DRONE_SYSTEM_HOSTNAME}/${AUTHOR}/${BASEDIR}/${KBUILD_BUILD_VERSION}"
-	else
-		msger -n "Not presetting Build Version"
-	fi
-fi
+export KBUILD_BUILD_VERSION=$CIRRUS_BUILD_ID
+export KBUILD_BUILD_HOST="cirrus-ci.org"
+export CI_BRANCH=$CIRRUS_BRANCH
 
 #Check Kernel Version
 KERVER=$(make kernelversion)
@@ -174,7 +165,7 @@ KERVER=$(make kernelversion)
 COMMIT_HEAD=$(git log --oneline -1)
 
 # Set Date 
-DATE=$(TZ=Asia/Kolkata date +"%Y%m%d-%T")
+DATE=$(TZ=Asia/Jakarta date +"%Y%m%d-%T")
 
 #Now Its time for other stuffs like cloning, exporting, etc
 
@@ -193,13 +184,13 @@ DATE=$(TZ=Asia/Kolkata date +"%Y%m%d-%T")
 	if [ $COMPILER = "clang" ]
 	then
 		msger -n "|| Cloning Clang-16||"
-		git clone --depth=1 https://gitlab.com/Panchajanya1999/azure-clang.git clang-llvm
+		git clone --depth=1 https://gitlab.com/RyuujiX/neutron-clang -b Neutron-16 clang-llvm
 		# Toolchain Directory defaults to clang-llvm
 		TC_DIR=$KERNEL_DIR/clang-llvm
 	fi
 
 	msger -n "|| Cloning Anykernel ||"
-	git clone --depth 1 --no-single-branch https://github.com/"$AUTHOR"/AnyKernel3.git
+	git clone --depth 1 --no-single-branch https://github.com/nerdprojectorg/AnyKernel3.git
 
 	if [ $BUILD_DTBO = 1 ]
 	then
@@ -225,8 +216,8 @@ exports()
 		PATH=$GCC64_DIR/bin/:$GCC32_DIR/bin/:/usr/bin:$PATH
 	fi
 
-	BOT_MSG_URL="https://api.telegram.org/bot$token/sendMessage"
-	BOT_BUILD_URL="https://api.telegram.org/bot$token/sendDocument"
+	BOT_MSG_URL="https://api.telegram.org/bot$TOKEN/sendMessage"
+	BOT_BUILD_URL="https://api.telegram.org/bot$TOKEN/sendDocument"
 	PROCS=$(nproc --all)
 
 	export KBUILD_BUILD_USER ARCH SUBARCH PATH \
