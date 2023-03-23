@@ -1,0 +1,13 @@
+name: z3zens Build
+
+on: [push]
+
+jobs:
+  kernel-build:
+    runs-on: ubuntu-latest
+    container:
+      image: panchajanya1999/archlinux:latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Build Kernel
+      run: bash kernel.sh
