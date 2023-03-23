@@ -54,7 +54,7 @@ KERNEL_DIR="$(pwd)"
 BASEDIR="$(basename "$KERNEL_DIR")"
 
 # The name of the Kernel, to name the ZIP
-ZIPNAME="perf"
+ZIPNAME="LA.UM_4.19"
 
 # Build Author
 # Take care, it should be a universal and most probably, case-sensitive
