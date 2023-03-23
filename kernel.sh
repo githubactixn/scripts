@@ -24,7 +24,7 @@
 SERVER_URL="https://cirrus-ci.com/build/$CIRRUS_BUILD_ID"
 
 # Cloning Sources
-git clone --single-branch --depth=1 https://github.com/AOSPA-X01BD/kernel_msm-4.19 -b standalone kernel && cd kernel
+git clone --single-branch --depth=1 https://github.com/AOSPA-X01BD/kernel_msm-4.19 -b LA.UM.10.2.1.r1_4.19-stable kernel && cd kernel
 
 # Bail out if script fails
 set -e
