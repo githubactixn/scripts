@@ -20,9 +20,6 @@
 
 # Kernel building script
 
-# Show Progress compiling
-SERVER_URL="https://cirrus-ci.com/build/$CIRRUS_BUILD_ID"
-
 # Cloning Sources
 git clone --single-branch --depth=1 https://github.com/AOSPA-X01BD/kernel_msm-4.19 -b LA.UM.10.2.1.r1_4.19-stable kernel && cd kernel
 
@@ -149,17 +146,10 @@ LOG_DEBUG=0
 # shellcheck source=/etc/os-release
 export DISTRO=$(source /etc/os-release && echo "${NAME}")
 export KBUILD_BUILD_HOST=$(uname -a | awk '{print $2}')
-export CI_BRANCH=$(git rev-parse --abbrev-ref HEAD)
 TERM=xterm
-
-## Check for CI
-export KBUILD_BUILD_VERSION=$CIRRUS_BUILD_ID
-export KBUILD_BUILD_HOST="cirrus-ci.org"
-export CI_BRANCH=$CIRRUS_BRANCH
 
 #Check Kernel Version
 KERVER=$(make kernelversion)
-
 
 # Set a commit head
 COMMIT_HEAD=$(git log --oneline -1)
@@ -221,8 +211,8 @@ exports()
 	PROCS=$(nproc --all)
 
 	export KBUILD_BUILD_USER ARCH SUBARCH PATH \
-		KBUILD_COMPILER_STRING BOT_MSG_URL \
-		BOT_BUILD_URL PROCS
+	       KBUILD_COMPILER_STRING BOT_MSG_URL \
+	       BOT_BUILD_URL PROCS
 }
 
 ##---------------------------------------------------------##
@@ -240,10 +230,10 @@ tg_post_msg()
 
 tg_post_build()
 {
-	#Post MD5Checksum alongwith for easeness
+	# Post MD5Checksum alongwith for easeness
 	MD5CHECK=$(md5sum "$1" | cut -d' ' -f1)
 
-	#Show the Checksum alongwith caption
+	# Show the Checksum alongwith caption
 	curl --progress-bar -F document=@"$1" "$BOT_BUILD_URL" \
 	-F chat_id="$CHATID"  \
 	-F "disable_web_page_preview=true" \
@@ -263,7 +253,7 @@ build_kernel()
 
 	if [ "$PTTG" = 1 ]
  	then
-		tg_post_msg "<b>$KBUILD_BUILD_VERSION CI Build Triggered</b>%0A<b>Docker OS: </b><code>$DISTRO</code>%0A<b>Kernel Version : </b><code>$KERVER</code>%0A<b>Date : </b><code>$(TZ=Asia/Jakarta date)</code>%0A<b>Device : </b><code>$MODEL [$DEVICE]</code>%0A<b>Pipeline Host : </b><code>$KBUILD_BUILD_HOST</code>%0A<b>Host Core Count : </b><code>$PROCS</code>%0A<b>Compiler Used : </b><code>$KBUILD_COMPILER_STRING</code>%0A<b>Linker : </b><code>$LINKER</code>%0a<b>Branch : </b><code>$CI_BRANCH</code>%0A<b>Top Commit : </b><code>$COMMIT_HEAD</code>%0A<a href='$SERVER_URL'>Link</a>"
+		tg_post_msg "<b>CI Build Triggered</b>%0A<b>Docker OS: </b><code>$DISTRO</code>%0A<b>Kernel Version : </b><code>$KERVER</code>%0A<b>Date : </b><code>$(TZ=Asia/Jakarta date)</code>%0A<b>Device : </b><code>$MODEL [$DEVICE]</code>%0A<b>Host Core Count : </b><code>$PROCS</code>%0A<b>Compiler Used : </b><code>$KBUILD_COMPILER_STRING</code>%0A<b>Linker : </b><code>$LINKER</code>%0A<b>Top Commit : </b><code>$COMMIT_HEAD</code>"
 	fi
 
 	make O=out $DEFCONFIG
