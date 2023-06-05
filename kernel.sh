@@ -51,7 +51,7 @@ KERNEL_DIR="$(pwd)"
 BASEDIR="$(basename "$KERNEL_DIR")"
 
 # The name of the Kernel, to name the ZIP
-ZIPNAME="CLO-STBL"
+ZIPNAME="$(make kernelversion)"
 
 # Build Author
 # Take care, it should be a universal and most probably, case-sensitive
@@ -174,7 +174,7 @@ DATE=$(TZ=Asia/Jakarta date +"%Y%m%d-%T")
 	if [ $COMPILER = "clang" ]
 	then
 		msger -n "|| Cloning Clang-17||"
-		git clone --depth=1 https://gitlab.com/z3zens/neutron-clang -b main clang-llvm
+		git clone --depth=1 https://gitlab.com/z3zens/Clang-Toolchains -b main clang-llvm
 		# Toolchain Directory defaults to clang-llvm
 		TC_DIR=$KERNEL_DIR/clang-llvm
 	fi
