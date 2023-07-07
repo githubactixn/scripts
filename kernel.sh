@@ -51,7 +51,7 @@ KERNEL_DIR="$(pwd)"
 BASEDIR="$(basename "$KERNEL_DIR")"
 
 # The name of the Kernel, to name the ZIP
-ZIPNAME="$(make kernelversion)"
+ZIPNAME="perf+"
 
 # Build Author
 # Take care, it should be a universal and most probably, case-sensitive
@@ -350,10 +350,10 @@ gen_zip()
 		mv "$KERNEL_DIR"/out/arch/arm64/boot/dtbo.img AnyKernel3/dtbo.img
 	fi
 	cdir AnyKernel3
-	zip -r $ZIPNAME-$DEVICE-"$DATE" . -x ".git*" -x "README.md" -x "*.zip"
+	zip -r $KERVER-$DEVICE-"$ZIPNAME" . -x ".git*" -x "README.md" -x "*.zip"
 
 	## Prepare a final zip variable
-	ZIP_FINAL="$ZIPNAME-$DEVICE-$DATE"
+	ZIP_FINAL="$KERVER-$DEVICE-$ZIPNAME"
 
 	if [ $SIGN = 1 ]
 	then
