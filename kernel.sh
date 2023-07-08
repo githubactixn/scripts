@@ -68,7 +68,7 @@ DEVICE="X01BD"
 
 # The defconfig which should be used. Get it from config.gz from
 # your device or check source
-DEFCONFIG=vendor/X01BD_defconfig
+DEFCONFIG=asus/X01BD_defconfig
 
 # Specify compiler. 
 # 'clang' or 'gcc'
