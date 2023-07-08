@@ -21,7 +21,7 @@
 # Kernel building script
 
 # Cloning Sources
-git clone --single-branch --depth=1 https://github.com/z3zens/android_kernel_asus_sdm660 -b 4.19-rebase kernel && cd kernel
+git clone --single-branch --depth=1 https://github.com/AOSPA-X01BD/kernel_msm-4.19 -b 4.19-rebase kernel && cd kernel
 
 # Bail out if script fails
 set -e
