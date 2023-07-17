@@ -4,7 +4,7 @@ on: [push]
 
 jobs:
   kernel-build:
-    runs-on: ubuntu-latest
+    runs-on: buildjet-32vcpu-ubuntu-2204
     container:
       image: z3zens/ubuntu:latest
     steps:
