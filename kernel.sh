@@ -21,7 +21,7 @@
 # Kernel building script
 
 # Cloning Sources
-git clone --single-branch --depth=1 https://github.com/z3zens/android_kernel_asus_sdm660 -b upstream kernel && cd kernel
+git clone --single-branch --depth=1 https://github.com/z3zens/android_kernel_asus_sdm660 -b android-4.19-stable kernel && cd kernel
 
 # Bail out if script fails
 set -e
@@ -68,7 +68,7 @@ DEVICE="X01BD"
 
 # The defconfig which should be used. Get it from config.gz from
 # your device or check source
-DEFCONFIG=vendor/X01BD_defconfig
+DEFCONFIG=asus/X01BD_defconfig
 
 # Specify compiler. 
 # 'clang' or 'gcc'
