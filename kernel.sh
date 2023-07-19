@@ -21,7 +21,7 @@
 # Kernel building script
 
 # Cloning Sources
-git clone --single-branch --depth=1 https://github.com/z3zens/android_kernel_asus_sdm660 -b android-4.19-stable kernel && cd kernel
+git clone --single-branch --depth=1 https://github.com/z3zens/android_kernel_asus_sdm660 -b revisi kernel && cd kernel
 
 # Bail out if script fails
 set -e
