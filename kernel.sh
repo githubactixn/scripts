@@ -21,7 +21,7 @@
 # Kernel building script
 
 # Cloning Sources
-git clone --single-branch --depth=1 https://github.com/z3zens/android_kernel_asus_sdm660 -b revisi kernel && cd kernel
+git clone --single-branch --depth=1 https://github.com/asus-X01BD-4-19-devs/android_kernel_asus_sdm660 -b android13-sdm660 kernel && cd kernel
 
 # Bail out if script fails
 set -e
