@@ -174,9 +174,10 @@ DATE=$(TZ=Asia/Jakarta date +"%Y%m%d-%T")
 	if [ $COMPILER = "clang" ]
 	then
 		msger -n "|| Cloning Clang-17||"
-		git clone --depth=1 https://gitlab.com/z3zens/Clang-Toolchains -b main clang-llvm
+		git clone --depth=1 https://gitlab.com/z3zens/neutron-clang -b main clang-llvm
 		# Toolchain Directory defaults to clang-llvm
 		TC_DIR=$KERNEL_DIR/clang-llvm
+  		export LD_LIBRARY_PATH=$TC_DIR/bin/:$LD_LIBRARY_PATH
 	fi
 
 	msger -n "|| Cloning Anykernel ||"
@@ -279,6 +280,7 @@ build_kernel()
 			STRIP=llvm-strip \
 			NM=llvm-nm \
 			OBJCOPY=llvm-objcopy \
+   			LD_LIBRARY_PATH=$TC_DIR/lib \
 			LD="$LINKER"
 		)
 	elif [ $COMPILER = "gcc" ]
