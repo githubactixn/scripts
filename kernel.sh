@@ -21,7 +21,8 @@
 # Kernel building script
 
 # Cloning Sources
-git clone --single-branch --depth=1 https://github.com/asus-X01BD-4-19-devs/android_kernel_asus_sdm660 -b revisi kernel && cd kernel
+git clone --single-branch --depth=1 https://github.com/asus-X01BD-4-19-devs/android_kernel_asus_sdm660 -b android13-sdm660 kernel && cd kernel
+git revert 0461bae09bcf09c58c12de9772cd3247add4ee33 -n
 
 # Bail out if script fails
 set -e
@@ -51,7 +52,7 @@ KERNEL_DIR="$(pwd)"
 BASEDIR="$(basename "$KERNEL_DIR")"
 
 # The name of the Kernel, to name the ZIP
-ZIPNAME="perf+"
+ZIPNAME="android13-sdm660"
 
 # Build Author
 # Take care, it should be a universal and most probably, case-sensitive
