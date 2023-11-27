@@ -21,8 +21,7 @@
 # Kernel building script
 
 # Cloning Sources
-git clone --single-branch --depth=1 https://github.com/asus-X01BD-4-19-devs/android_kernel_asus_sdm660 -b android13-sdm660 kernel && cd kernel
-git revert 0461bae09bcf09c58c12de9772cd3247add4ee33 -n
+git clone --single-branch --depth=1 https://github.com/tulip-org/kernel_xiaomi_sdm660 -b 4.19 kernel && cd kernel
 
 # Bail out if script fails
 set -e
@@ -52,24 +51,24 @@ KERNEL_DIR="$(pwd)"
 BASEDIR="$(basename "$KERNEL_DIR")"
 
 # The name of the Kernel, to name the ZIP
-ZIPNAME="android13-sdm660"
+ZIPNAME="pitron"
 
 # Build Author
 # Take care, it should be a universal and most probably, case-sensitive
-AUTHOR="z3zens"
+AUTHOR="xyz-mocha"
 
 # Architecture
 ARCH=arm64
 
 # The name of the device for which the kernel is built
-MODEL="Zenfone Max Pro M2"
+MODEL="Redmi Note 6 Pro"
 
 # The codename of the device
-DEVICE="X01BD"
+DEVICE="tulip"
 
 # The defconfig which should be used. Get it from config.gz from
 # your device or check source
-DEFCONFIG=asus/X01BD_defconfig
+DEFCONFIG=vendor/xiaomi/tulip_defconfig
 
 # Specify compiler. 
 # 'clang' or 'gcc'
@@ -90,8 +89,8 @@ PTTG=1
 if [ $PTTG = 1 ]
 then
 	# Set Telegram Chat ID
-	CHATID="-1001567354257"
-	TOKEN="5654193670:AAGgu2DWx7tQjGq9tn-uaPIoljdrYWGBWio"
+	CHATID="-1001475861469"
+	TOKEN="6001833508:AAEvn_Z_sdafbZ6ZoBmZlbVDhdT56KDKB0Y"
 fi
 
 # Generate a full DEFCONFIG prior building. 1 is YES | 0 is NO(default)
@@ -107,7 +106,7 @@ if [ $BUILD_DTBO = 1 ]
 then 
 	# Set this to your dtbo path. 
 	# Defaults in folder out/arch/arm64/boot/dts
-	DTBO_PATH="asus/X01BD-sdm660-overlay.dtbo"
+	DTBO_PATH="xiaomi/tulip-sdm660-overlay.dtbo"
 fi
 
 # Sign the zipfile
@@ -156,7 +155,7 @@ KERVER=$(make kernelversion)
 COMMIT_HEAD=$(git log --oneline -1)
 
 # Set Date 
-DATE=$(TZ=Asia/Jakarta date +"%Y%m%d-%T")
+DATE=$(TZ=Asia/Kolkata date +"%Y%m%d-%T")
 
 #Now Its time for other stuffs like cloning, exporting, etc
 
@@ -182,7 +181,7 @@ DATE=$(TZ=Asia/Jakarta date +"%Y%m%d-%T")
 	fi
 
 	msger -n "|| Cloning Anykernel ||"
-	git clone --depth 1 --no-single-branch https://github.com/nerdprojectorg/AnyKernel3.git
+	git clone --depth 1 --no-single-branch https://github.com/xyz-mocha/AnyKernel3
 
 	if [ $BUILD_DTBO = 1 ]
 	then
